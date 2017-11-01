@@ -13,9 +13,7 @@ LOCALE_LOCK = threading.Lock()
 
 def setlocale(name): #thread proof function to work with locale
     with LOCALE_LOCK:
-        print "locate_lock"
         saved = locale.setlocale(locale.LC_ALL)
-        print "saved done"
         try:
             yield locale.setlocale(locale.LC_ALL, name)
         finally:
@@ -76,7 +74,6 @@ class Clock(Frame):
         self.tick()
 
     def tick(self):
-        print "entra"
         ##with setlocale(ui_locale):
         if time_format == 12:
             time2 = time.strftime('%I:%M %p') #hour in 12h format
@@ -129,7 +126,6 @@ class blah:
         return min(max(x, lo), hi)
 
     def MoveWindowStart(self, event):
-        print 'move window start'
         self.move_lastx = event.x_root
         self.move_lasty = event.y_root
         self.event_start_x = event.x - self.x
@@ -143,15 +139,12 @@ class blah:
         self.move_lastx = event.x_root
         self.move_lasty = event.y_root
 
-        print 'evento x ' + str(self.event_start_x)
-        print 'evento y ' + str(self.event_start_y)
         self.x = self.clamp(0, self.root.winfo_width()-200, self.x + self.event_start_x + dx ) # should depend on
         self.y = self.clamp(0, self.root.winfo_height()-200, self.y + self.event_start_y + dy) # actual size here
         self.f.place_configure(x=self.x, y=self.y )
 
     def focus(self, event=None):
         self.f.tkraise()
-        print 'focus vite'
 
 if __name__ == '__main__':
     app = Application()
